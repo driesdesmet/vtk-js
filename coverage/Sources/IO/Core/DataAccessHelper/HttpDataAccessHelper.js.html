@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">57% </span>
+                <span class="strong">54.29% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>57/100</span>
+                <span class='fraction'>57/105</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">43.12% </span>
+                <span class="strong">40.52% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>47/109</span>
+                <span class='fraction'>47/116</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">57.14% </span>
+                <span class="strong">54.37% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>56/98</span>
+                <span class='fraction'>56/103</span>
             </div>
         
             
@@ -296,7 +296,19 @@
 <a name='L237'></a><a href='#L237'>237</a>
 <a name='L238'></a><a href='#L238'>238</a>
 <a name='L239'></a><a href='#L239'>239</a>
-<a name='L240'></a><a href='#L240'>240</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L240'></a><a href='#L240'>240</a>
+<a name='L241'></a><a href='#L241'>241</a>
+<a name='L242'></a><a href='#L242'>242</a>
+<a name='L243'></a><a href='#L243'>243</a>
+<a name='L244'></a><a href='#L244'>244</a>
+<a name='L245'></a><a href='#L245'>245</a>
+<a name='L246'></a><a href='#L246'>246</a>
+<a name='L247'></a><a href='#L247'>247</a>
+<a name='L248'></a><a href='#L248'>248</a>
+<a name='L249'></a><a href='#L249'>249</a>
+<a name='L250'></a><a href='#L250'>250</a>
+<a name='L251'></a><a href='#L251'>251</a>
+<a name='L252'></a><a href='#L252'>252</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -329,11 +341,23 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -566,13 +590,25 @@ function openAsyncXHR(method, url, options = <span class="branch-0 cbranch-no" t
 }
 &nbsp;
 function <span class="fstat-no" title="function not covered" >fetchBinary(</span>url, options = <span class="branch-0 cbranch-no" title="branch not covered" >{})</span> {
+<span class="cstat-no" title="statement not covered" >  if (options &amp;&amp; options.compression &amp;&amp; options.compression !== 'gz') {</span>
+<span class="cstat-no" title="statement not covered" >    vtkErrorMacro('Supported algorithms are: [gz]');</span>
+<span class="cstat-no" title="statement not covered" >    vtkErrorMacro(`Unkown compression algorithm: ${options.compression}`);</span>
+  }
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  return new Promise(<span class="fstat-no" title="function not covered" >(r</span>esolve, reject) =&gt; {</span>
     const xhr = <span class="cstat-no" title="statement not covered" >openAsyncXHR('GET', url, options);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    xhr.onreadystatechange = <span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >      if (xhr.readyState === 4) {</span>
 <span class="cstat-no" title="statement not covered" >        if (xhr.status === 200 || xhr.status === 0) {</span>
-<span class="cstat-no" title="statement not covered" >          resolve(xhr.response);</span>
+<span class="cstat-no" title="statement not covered" >          if (options.compression) {</span>
+<span class="cstat-no" title="statement not covered" >            resolve(</span>
+              pako.inflate(new Uint8Array(xhr.response), { to: 'arraybuffer' })
+                .buffer
+            );
+          } else {
+<span class="cstat-no" title="statement not covered" >            resolve(xhr.response);</span>
+          }
         } else {
 <span class="cstat-no" title="statement not covered" >          reject({ xhr, e });</span>
         }
@@ -781,7 +817,7 @@ export default HttpDataAccessHelper;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Wed Aug 25 2021 15:59:40 GMT+0000 (Coordinated Universal Time)
+                at Thu Aug 26 2021 15:48:39 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
         <script src="../../../../prettify.js"></script>
